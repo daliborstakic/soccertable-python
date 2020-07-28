@@ -31,6 +31,34 @@ def print_table():
     print(t)
 
 
+def points(club):
+    return club.points
+
+
+def handling_results(f_club, s_club, result):
+    if result[0] > result[1]:
+        f_club.gs += int(result[0])
+        f_club.ga += int(result[1])
+        s_club.gs += int(result[1])
+        s_club.ga += int(result[0])
+        f_club.wi += 1
+        s_club.lo += 1
+    elif result[1] > result[0]:
+        f_club.gs += int(result[0])
+        f_club.ga += int(result[1])
+        s_club.gs += int(result[1])
+        s_club.ga += int(result[0])
+        f_club.lo += 1
+        s_club.wi += 1
+    else:
+        f_club.gs += int(result[0])
+        f_club.ga += int(result[1])
+        s_club.gs += int(result[1])
+        s_club.ga += int(result[0])
+        f_club.dr += 1
+        s_club.dr += 1
+
+
 # Empty club list
 clubs = []
 
@@ -41,11 +69,13 @@ for i in range(1, 5):
 
 print_table()
 
-results = []
-
 # Entering results
 for club in clubs:
     for i in range(4):
         if club.name != clubs[i].name:
-            final_result = input('{} : {} '.format(club.name, clubs[i].name))
-            results.append((club.name, clubs[i].name, final_result))
+            final_result = input('{} : {} '.format(club.name, clubs[i].name)).split(':')
+            handling_results(club, clubs[i], final_result)
+
+clubs.sort(reverse=True, key=points)
+
+print_table()
